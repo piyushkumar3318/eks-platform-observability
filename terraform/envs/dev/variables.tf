@@ -9,3 +9,4 @@ variable "cluster_role_arn" {
 variable "node_role_arn" {
   description = "IAM role for worker nodes"
 }
+

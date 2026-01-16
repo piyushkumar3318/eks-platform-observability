@@ -1,0 +1,10 @@
+groups:
+- name: node-alerts
+rules:
+- alert: HighNodeCPU
+expr: instance:node_cpu_utilisation:rate5m > 0.8
+for: 5m
+labels:
+severity: warning
+annotations:
+description: Node CPU usage above 80%

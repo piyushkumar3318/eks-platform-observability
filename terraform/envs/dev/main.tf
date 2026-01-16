@@ -6,11 +6,23 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.25"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.12"
+    }
   }
 }
 
 provider "aws" {
   region = var.region
+}
+
+provider "kubernetes" {
+  config_path = "~/.kube/config"
 }
 
 #######################################
@@ -57,4 +69,14 @@ module "node_group" {
   max_size     = 2
 }
 
+#######################################
+#  MONITORING MODULE
+#######################################
 
+module "monitoring" {
+  source                  = "../../modules/monitoring"
+  namespace               = "monitoring"
+  prometheus_release_name = "prometheus"
+  grafana_release_name    = "grafana"
+  daemonset_name          = "node-agent"
+}
